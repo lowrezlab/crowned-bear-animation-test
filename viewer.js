@@ -157,7 +157,8 @@ export async function start(state) {
     state.hidden = false;
   });
 
-  select(idleAction);
+  const initialClip = new URLSearchParams(location.search).get('clip');
+  select(initialClip === 'walk' ? walkAction : idleAction);
   updatePauseLabel();
   canvas.hidden = false;
   resize();
