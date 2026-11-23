@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Orbit Crowned Bear and test its Idle and Walk animation loops.">
+  <meta name="color-scheme" content="dark">
+  <title>Crowned Bear — Animation Test</title>
+  <link rel="stylesheet" href="./viewer.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.min.js",
+        "three/addons/": "./vendor/three/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">Animation test</p>
+        <h1>Crowned Bear</h1>
+      </div>
+      <p class="version">Life v3 A v2</p>
+    </header>
+    <section class="viewer" aria-label="Crowned Bear viewer">
+      <div id="stage" class="stage" aria-label="Interactive 3D model" aria-describedby="orbit-help">
+        <p id="state" role="status">Loading the bear…</p>
+      </div>
+      <noscript><p class="notice">Enable JavaScript to open the 3D viewer.</p></noscript>
+      <div class="controls">
+        <div class="playback" role="group" aria-label="Animation playback">
+          <button id="idle" aria-pressed="true" disabled>Idle</button>
+          <button id="walk" aria-pressed="false" disabled>Walk</button>
+          <button id="pause" disabled>Pause</button>
+        </div>
+        <p id="orbit-help">Drag to orbit · Scroll or pinch to zoom · Arrow keys to orbit</p>
+        <button id="reset" disabled>Reset view</button>
+      </div>
+    </section>
+  </main>
+  <script>
+    const state = document.querySelector('#state');
+    const startupTimeout = setTimeout(() => {
+      state.textContent = 'Loading timed out. Reload to try again.';
+      state.dataset.state = 'error';
+    }, 25000);
+    import('./viewer.js').then(({ start }) => start(state)).catch((error) => {
+      const messages = {
+        webgl: 'This browser couldn’t start WebGL 2. Open the page in a browser with WebGL 2 enabled.',
+        textures: 'The bear’s WebP textures couldn’t load. Reload or try another browser.',
+      };
+      state.textContent = messages[error.message] ?? 'The viewer couldn’t load the bear. Reload to try again.';
+      state.dataset.state = 'error';
+      state.hidden = false;
+      console.error(error);
+    }).finally(() => clearTimeout(startupTimeout));
+  </script>
+</body>
+</html>
