@@ -94,6 +94,7 @@ button:not(:disabled):hover { border-color: #ffe3cc; }
 :focus-visible { outline: 2px solid #fff5e9; outline-offset: 2px; }
 #orbit-help { color: var(--subtle); font-size: 0.8rem; }
 #reset { margin-inline-start: auto; }
+@media (pointer: coarse) { .keyboard-help { display: none; } }
 @media (max-width: 38rem) {
   .stage { height: clamp(18rem, 56svh, 34rem); }
   #orbit-help { flex-basis: 100%; order: 1; }

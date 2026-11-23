@@ -23,6 +23,7 @@ export async function start(state) {
   canvas.tabIndex = 0;
   canvas.setAttribute('aria-label', 'Orbit around Crowned Bear');
   canvas.setAttribute('aria-describedby', 'orbit-help');
+  canvas.setAttribute('aria-keyshortcuts', 'I W');
   canvas.hidden = true;
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -95,6 +96,13 @@ export async function start(state) {
   }
 
   canvas.addEventListener('keydown', (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    const clipButton = { i: idle, w: walk }[event.key.toLowerCase()];
+    if (clipButton) {
+      event.preventDefault();
+      clipButton.click();
+      return;
+    }
     const movement = {
       ArrowLeft: [-0.15, 0], ArrowRight: [0.15, 0],
       ArrowUp: [0, -0.12], ArrowDown: [0, 0.12],
